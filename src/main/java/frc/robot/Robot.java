@@ -5,9 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import java.awt.event.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -17,8 +16,9 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
  * a flywheel to
  * control RPM.
  */
-public class Robot extends TimedRobot implements KeyListener {
+public class Robot extends TimedRobot{
 
+  private final XboxController driver = new XboxController(0);
   private static CANSparkMax upperShooter = new CANSparkMax(9, MotorType.kBrushless);
   private static CANSparkMax lowerShooter = new CANSparkMax(55, MotorType.kBrushless);
   private static CANSparkMax intake = new CANSparkMax(33, MotorType.kBrushless);
@@ -44,6 +44,17 @@ public class Robot extends TimedRobot implements KeyListener {
     upperShooter.set(speed);
     intake.set(.75);
     SmartDashboard.putNumber("Intake Motor Speed", speed);
+    if(driver.getYButtonPressed()){
+      if (speed <= 0.95) {
+        speed += 0.05;
+      }
+    }
+
+    if(driver.getAButtonPressed()){
+       if (speed >= 0.05) {
+        speed -= 0.05;
+      }
+    }
 
   }
 
@@ -53,43 +64,4 @@ public class Robot extends TimedRobot implements KeyListener {
 
   }
 
-  @Override
-  public void keyTyped(KeyEvent e) {
-    action(e);
-  }
-
-  @Override
-  public void keyPressed(KeyEvent e) {
-    action(e);
-  }
-
-  @Override
-  public void keyReleased(KeyEvent e) {
-    //action(e);
-  }
-
-  private void action(KeyEvent e) {
-    SmartDashboard.putString("Key Code", String.valueOf(e.getKeyChar()));
-    int key = e.getKeyCode();
-    if (key == KeyEvent.VK_LEFT) {
-
-    }
-
-    if (key == KeyEvent.VK_RIGHT) {
-
-    }
-
-    if (key == KeyEvent.VK_UP) {
-      if (speed <= 0.95) {
-        speed += 0.05;
-      }
-    }
-
-    if (key == KeyEvent.VK_DOWN) {
-      if (speed >= 0.05) {
-        speed -= 0.05;
-      }
-    }
-
-  }
 }
