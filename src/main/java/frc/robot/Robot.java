@@ -22,7 +22,7 @@ public class Robot extends TimedRobot implements KeyListener {
   private static CANSparkMax upperShooter = new CANSparkMax(9, MotorType.kBrushless);
   private static CANSparkMax lowerShooter = new CANSparkMax(55, MotorType.kBrushless);
   private static CANSparkMax intake = new CANSparkMax(33, MotorType.kBrushless);
-  private double speed = 0.5;
+  private double speed = 0;
 
   @Override
   public void robotInit() {
@@ -69,6 +69,7 @@ public class Robot extends TimedRobot implements KeyListener {
   }
 
   private void action(KeyEvent e) {
+    SmartDashboard.putString("Key Code", String.valueOf(e.getKeyChar()));
     int key = e.getKeyCode();
     if (key == KeyEvent.VK_LEFT) {
 
